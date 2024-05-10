@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 
 // Replace 'YOUR_MONGODB_URI' with your actual MongoDB connection URI
-const mongodbURI = process.env.MONGODB_URL;
+const mongodbURI =
+  "mongodb+srv://techraees786:tdd49z3EIUsw00EP@cluster0.uadhgij.mongodb.net/CarService";
 
 // Connect to MongoDB
 const connectDB = async () => {
