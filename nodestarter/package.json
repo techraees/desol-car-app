@@ -1,0 +1,39 @@
+{
+  "name": "nodetailwindtemplatewithview",
+  "version": "1.0.0",
+  "description": "Creating a Git repository with a basic MVC-based website template that includes Node.js. The project aims to provide a starting point for web development, following the Model-View-Controller (MVC) pattern. It facilitates building scalable web applications with a well-organized structure.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/techraees/nodetemplate-tailwindready.git"
+  },
+  "keywords": [
+    "node",
+    "template"
+  ],
+  "author": "Rana Raees Ahmad Khan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/techraees/nodetemplate-tailwindready/issues"
+  },
+  "homepage": "https://github.com/techraees/nodetemplate-tailwindready#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "config": "^3.3.9",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-fileupload": "^1.4.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^7.4.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

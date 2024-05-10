@@ -1,0 +1,30 @@
+body > .skiptranslate {
+  display: none;
+}
+body {
+  top: 0px !important;
+}
+#goog-gt-tt {
+  display: none;
+}
+
+.VIpgJd-ZVi9od-l4eHX-hSRGPd {
+  display: none;
+}
+
+.goog-te-combo {
+  width: 130px;
+  padding: 7px 7px;
+  background: white;
+  border: 0px solid;
+  cursor: pointer;
+}
+
+#\:0\.targetLanguage {
+  position: absolute;
+  top: 6px;
+}
+
+.VIpgJd-ZVi9od-aZ2wEe-wOHMyf {
+  display: none;
+}

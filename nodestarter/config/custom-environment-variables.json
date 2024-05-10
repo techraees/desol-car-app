@@ -1,0 +1,7 @@
+{
+    "port": "PORT",
+    "mongodb": {
+      "uri": "MONGODB_URI"
+    }
+  }
+  

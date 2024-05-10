@@ -1,0 +1,14 @@
+.formLabelText {
+  font-size: 12px !important;
+  color: rgb(197, 197, 197);
+  margin-bottom: 0px !important;
+}
+
+.formLabelTextPlaceHolder {
+  font-size: 12px !important;
+}
+
+.formLabelTextRadio {
+  font-size: 12px !important;
+  color: rgb(166, 166, 166);
+}
