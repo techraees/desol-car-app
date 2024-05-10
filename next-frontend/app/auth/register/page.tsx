@@ -160,7 +160,7 @@ export default function ComposedTextField() {
             <p>
               Already Have a account{" "}
               <span className="text-blue-400 underline">
-                <Link href="/auth/Register">Log in</Link>
+                <Link href="/auth/register">Log in</Link>
               </span>
             </p>
           </Box>
