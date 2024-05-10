@@ -1,10 +1,11 @@
 // Import required modules
 const express = require("express");
 const fileUpload = require("express-fileupload");
-const DB = require("./utils/db");
 const cors = require("cors");
 require("dotenv").config();
 const path = require("path");
+const DB = require("./utils/db");
+
 
 // Create an Express application
 const app = express();
