@@ -4,6 +4,10 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
 // Login User By Token
+let PORT = 4000;
+let JWT_SECRET = "asdasdasda23423asdasdas$%$%asd";
+let SALT = 5;
+
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -28,7 +32,7 @@ const loginUser = async (req, res) => {
       {
         id: user._id,
       },
-      process.env.JWT_SECRET,
+      JWT_SECRET,
       { expiresIn: "7d" }
     );
 
@@ -49,7 +53,7 @@ const loginUser = async (req, res) => {
 const verifyUserLogin = async (req, res) => {
   try {
     const { token } = req.params;
-    let decoded = await jwt.verify(token, process.env.JWT_SECRET);
+    let decoded = await jwt.verify(token, JWT_SECRET);
 
     if (!decoded.id) {
       return res.status(400).json({ message: "Invalid Token" });

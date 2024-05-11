@@ -55,9 +55,8 @@ const CarProducts = ({
         </div>
       ) : (
         <>
-          <h2 className="text-center my-3 text-[#c5c3c3] font-[600] text-lg">
-            Latest Cars With Modals
-          </h2>
+        
+        
           <Flex justify="center" align="center" wrap="wrap">
             {carProductsData
               ? carProductsData.map((car: Car) => (

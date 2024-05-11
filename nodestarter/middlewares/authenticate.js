@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken";
 import UserModel from "../models/userModel.js";
 
+let JWT_SECRET = "asdasdasda23423asdasdas$%$%asd";
+
 const authenticateUserLogin = async (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
@@ -14,7 +16,7 @@ const authenticateUserLogin = async (req, res, next) => {
     });
   }
 
-  let decoded = await jwt.verify(token, process.env.JWT_SECRET);
+  let decoded = await jwt.verify(token, JWT_SECRET);
   if (!decoded) {
     return res.status(403).json({
       status: "fail",
