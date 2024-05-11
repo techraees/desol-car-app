@@ -16,7 +16,7 @@ let FRONTEND_URL = "http://localhost:3000";
 let FRONTEND_URL_PRODUCTION = "https://desol-car-app-chi.vercel.app";
 app.use(
   cors({
-    origin: FRONTEND_URL,
+    origin: FRONTEND_URL_PRODUCTION,
     methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
   })
 );
