@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Box,
   Flex,
@@ -14,6 +16,10 @@ import {
   useColorModeValue,
   useBreakpointValue,
   useDisclosure,
+  Avatar,
+  AvatarBadge,
+  AvatarGroup,
+  WrapItem,
 } from "@chakra-ui/react";
 import {
   HamburgerIcon,
@@ -21,8 +27,35 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
 } from "@chakra-ui/icons";
+import { getCookie, removeCookie } from "@/utils/cookieFunction";
+import { useEffect, useState } from "react";
+import { currentUserData } from "@/utils/currentUserDataHelper";
+import profileimage from "../public/profile.png";
+import { useRouter } from "next/navigation";
 
 export default function WithSubnavigation() {
+  const router = useRouter();
+  const [currentLoginUserData, setCurrentLoginUserData] = useState<any | null>(
+    null
+  );
+
+  // Getting Current User Data
+  const handleCurrentUserData = async () => {
+    const access_token: string = getCookie("access_token");
+
+    const data = await currentUserData(access_token);
+    if (data) {
+      setCurrentLoginUserData(data);
+    } else {
+      
+      router.push("/");
+    }
+  };
+  useEffect(() => {
+    handleCurrentUserData();
+  }, []);
+
+  console.log(currentLoginUserData);
   const { isOpen, onToggle } = useDisclosure();
 
   return (
@@ -66,36 +99,66 @@ export default function WithSubnavigation() {
           </Flex>
         </Flex>
 
-        <Stack
-          flex={{ base: 1, md: 0 }}
-          justify={"flex-end"}
-          direction={"row"}
-          spacing={6}
-        >
-          <Button
-            as={"a"}
-            fontSize={"sm"}
-            fontWeight={400}
-            variant={"link"}
-            href={"/auth/login"}
+        {currentLoginUserData ? (
+          <Stack
+            flex={{ base: 1, md: 0 }}
+            justify={"flex-end"}
+            direction={"row"}
+            spacing={6}
           >
-            Sign In
-          </Button>
-          <Button
-            as={"a"}
-            display={{ base: "none", md: "inline-flex" }}
-            fontSize={"sm"}
-            fontWeight={600}
-            color={"white"}
-            bg={"pink.400"}
-            href={"/auth/register"}
-            _hover={{
-              bg: "pink.300",
-            }}
+            <Button
+              as={"a"}
+              fontSize={"sm"}
+              fontWeight={400}
+              variant={"link"}
+              className="mr-4 cursor-pointer"
+              onClick={() => {
+                removeCookie("access_token");
+                setCurrentLoginUserData(null);
+              }}
+            >
+              Logout
+            </Button>
+            <WrapItem>
+              <Avatar
+                size="xs"
+                name={currentLoginUserData.payload.user.email}
+                className="cursor-pointer"
+              />
+            </WrapItem>
+          </Stack>
+        ) : (
+          <Stack
+            flex={{ base: 1, md: 0 }}
+            justify={"flex-end"}
+            direction={"row"}
+            spacing={6}
           >
-            Sign Up
-          </Button>
-        </Stack>
+            <Button
+              as={"a"}
+              fontSize={"sm"}
+              fontWeight={400}
+              variant={"link"}
+              href={"/auth/login"}
+            >
+              Sign In
+            </Button>
+            <Button
+              as={"a"}
+              display={{ base: "none", md: "inline-flex" }}
+              fontSize={"sm"}
+              fontWeight={600}
+              color={"white"}
+              bg={"pink.400"}
+              href={"/auth/register"}
+              _hover={{
+                bg: "pink.300",
+              }}
+            >
+              Sign Up
+            </Button>
+          </Stack>
+        )}
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>

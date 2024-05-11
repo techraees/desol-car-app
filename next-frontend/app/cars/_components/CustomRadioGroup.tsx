@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Flex,
   FormControl,
@@ -9,20 +11,17 @@ import {
 import "./customInput.css";
 import { capitalizeFirstLetter } from "@/utils/helpers";
 import ErrorMessage from "@/components/ErrorMessage";
+import { useState } from "react";
 
 const CustomRadioGroup = ({
   label,
   name,
   register,
   options,
-  selectedValue,
-  onChange,
   errors,
 }: {
   label: string;
   options: { _id: string; name: string }[];
-  selectedValue: string;
-  onChange: (value: string) => void;
   name: string;
   register: any;
   errors: string | undefined;
@@ -33,7 +32,7 @@ const CustomRadioGroup = ({
         <FormLabel className="text-nowrap formLabelText">
           {label.toUpperCase()}:
         </FormLabel>
-        <RadioGroup value={selectedValue} onChange={onChange}>
+        <RadioGroup>
           <Flex direction="row" className="flex-wrap">
             {options &&
               options.map((option) => (
@@ -45,7 +44,7 @@ const CustomRadioGroup = ({
                   className="ml-10"
                 >
                   <span className="formLabelTextRadio">
-                    {capitalizeFirstLetter(option.name)}
+                    {option.name && capitalizeFirstLetter(option.name)}
                   </span>
                 </Radio>
               ))}

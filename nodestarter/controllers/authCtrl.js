@@ -62,7 +62,7 @@ const verifyUserLogin = async (req, res) => {
 
     return res.status(200).json({ status: "success", payload: { user } });
   } catch (error) {
-    res
+    return res
       .status(500)
       .json({
         status: "fail",

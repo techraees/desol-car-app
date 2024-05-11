@@ -21,7 +21,6 @@ const CarProducts = () => {
       id: 2,
       title: "Car 2",
       images: [
-        "https://picsum.photos/150/150",
         "https://picsum.photos/150",
         "https://picsum.photos/150/150",
         "https://picsum.photos/150",

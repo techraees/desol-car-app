@@ -21,7 +21,6 @@ const CustomInputField = ({
   register: any;
   errors: string | undefined;
 }) => {
-  console.log(errors, "PPPPPPPPPPPPP");
   return (
     <Flex align={"center"}>
       <FormControl

@@ -13,7 +13,7 @@ import "./carservice.css";
 import CustomSelectField from "./_components/CustomSelectWithLabel";
 import MultipleImageUpload from "./_components/MultipleImageUpload ";
 import CarProducts from "./CarProducts";
-import currentUserDataHelper from "@/utils/currentUserDataHelper";
+import {currentUserDataHelper} from "@/utils/currentUserDataHelper";
 import LoadingSkeletalParent from "@/components/LoadingSkeletalParent";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -51,7 +51,9 @@ const Cars = () => {
   });
   const router = useRouter();
   const [cities, setCities] = useState<any | null>(null);
-  const [carsPageLoading, setCarsPageLoading] = useState<boolean>(true);
+  const [carsPageLoading, setCarsPageLoading] = useState<boolean>(false);
+  const [formImages, setFormImages] = useState<File[]>([]); // State to store image files
+  const [formImagesErrors, setFormImagesErrors] = useState<string | null>(null); // State to store image files
 
   // Redirect to other Cars
   useEffect(() => {
@@ -63,16 +65,6 @@ const Cars = () => {
       router.push("/auth/login");
     }
   }, []);
-
-  const [selectedValue, setSelectedValue] = useState("");
-
-  const handleRadioChange = (value: string) => {
-    setSelectedValue(value);
-  };
-
-  const handleSelectChange = (value: string) => {
-    setSelectedValue(value);
-  };
 
   const gettingCitiesData = async () => {
     try {
@@ -86,14 +78,28 @@ const Cars = () => {
 
   const onSubmit = async (data: CarFormData) => {
     try {
+      setFormImagesErrors(null);
+
       // Send form data to the server
-      console.log(data);
-      // await api.post('/car', data); // Example API call
-      router.push("/success"); // Redirect to success page after successful submission
+      console.log(formImages);
+      if (formImages.length == 0) {
+        alert("Police Wala");
+        return setFormImagesErrors("Please attach at least one image");
+      }
+
+      const dataSendingToApi = { ...data, images_array: [...formImages] };
+
+      // Api Sending For Creating New Car
     } catch (error) {
       console.error("Error submitting form:", error);
     }
   };
+
+  // Check if errors object has any properties
+  const hasErrors = (errorsObj: any) => {
+    return Object.keys(errorsObj).length > 0;
+  };
+  console.log(formImagesErrors);
   console.log(errors);
   return (
     <>
@@ -101,9 +107,9 @@ const Cars = () => {
         <LoadingSkeletalParent />
       ) : (
         <div className="p-5 container m-auto">
-          <h1 className="text-center my-3 text-[#c5c3c3] font-[600] text-lg">
+          <h2 className="text-center my-3 text-[#c5c3c3] font-[600] text-lg">
             Create a New Car
-          </h1>
+          </h2>
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <CustomFlexInput
@@ -130,25 +136,33 @@ const Cars = () => {
             <CustomRadioGroup
               label="City"
               options={cities}
-              selectedValue={selectedValue}
-              onChange={handleRadioChange}
               name="city"
               register={register}
               errors={errors.city && errors.city.message}
             />
             <CustomSelectField
               label="No. of copies"
-              selectedValue={selectedValue}
-              onChange={handleSelectChange}
               name="no_of_copies"
               register={register}
               errors={errors.no_of_copies && errors.no_of_copies.message}
             />
-            <MultipleImageUpload />
+            <MultipleImageUpload
+              onImageChange={setFormImages}
+              errors={formImagesErrors}
+              setClearImageError={setFormImagesErrors}
+            />
             <Button
               type="submit"
+              onClick={() => {
+                if (formImages.length == 0) {
+                  setTimeout(() => {
+                    setFormImagesErrors("Please attach at least one image");
+                  }, 500);
+                }
+              }}
               className={`w-[100%] py-1.5 rounded-md text-white my-4`}
               colorScheme="blackAlpha"
+              isDisabled={formImagesErrors || hasErrors(errors) ? true : false}
             >
               {false ? (
                 <div className="h-[100%] flex items-center justify-center">

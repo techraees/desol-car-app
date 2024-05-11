@@ -19,7 +19,7 @@ import { useRouter } from "next/navigation";
 import LoadingSkeletalParent from "@/components/LoadingSkeletalParent";
 import { toast } from "react-toastify";
 import Link from "next/link";
-import currentUserDataHelper from "@/utils/currentUserDataHelper";
+import {currentUserDataHelper} from "@/utils/currentUserDataHelper";
 
 // Define your form schema using Zod
 const loginSchema = z.object({

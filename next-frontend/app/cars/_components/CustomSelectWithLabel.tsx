@@ -19,15 +19,11 @@ const options = [
 
 const CustomSelectField = ({
   label,
-  selectedValue,
-  onChange,
   name,
   register,
   errors,
 }: {
   label: string;
-  selectedValue: string;
-  onChange: (value: string) => void;
   name: string;
   register: any;
   errors: string | undefined;
@@ -44,9 +40,8 @@ const CustomSelectField = ({
         <div className="w-[100%]">
           {" "}
           <Select
-            value={selectedValue}
+            placeholder="Please Select At least one"
             className="formLabelText w-[100%]"
-            onChange={(e) => onChange(e.target.value)}
             {...register(name)} // Use name instead of "no_of_copies"
           >
             {options &&
@@ -61,7 +56,7 @@ const CustomSelectField = ({
               ))}
           </Select>
           <FormErrorMessage>
-            {<span className="text-[10px] font-[100]">{errors}</span>}
+            {<span className="text-[10px]">{errors}</span>}
           </FormErrorMessage>
         </div>
       </FormControl>

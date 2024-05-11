@@ -4,6 +4,15 @@ const City = require("../models/cityModel");
 exports.createCity = async (req, res) => {
   try {
     const { name } = req.body;
+    if (!name) {
+      return res.status(201).json({
+        status: "fail",
+        payload: {
+          error_message: "Name Field is Required",
+          error_code: "NAME_FIELD_IS_REQUIRED",
+        },
+      });
+    }
     const newCity = await City.create({ name });
     res.status(201).json({ status: "success", payload: { newCity } });
   } catch (err) {
