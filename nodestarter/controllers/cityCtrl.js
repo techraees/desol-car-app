@@ -1,7 +1,7 @@
-const City = require("../models/cityModel");
+import City from "../models/cityModel.js"
 
 // Create a new city
-exports.createCity = async (req, res) => {
+export const createCity = async (req, res) => {
   try {
     const { name } = req.body;
     if (!name) {
@@ -27,7 +27,7 @@ exports.createCity = async (req, res) => {
 };
 
 // Get all cities
-exports.getAllCities = async (req, res) => {
+export const getAllCities = async (req, res) => {
   try {
     const cities = await City.find();
     res.json({ status: "success", payload: { cities } });
@@ -43,7 +43,7 @@ exports.getAllCities = async (req, res) => {
 };
 
 // Get a city by ID
-exports.getCityById = async (req, res) => {
+export const getCityById = async (req, res) => {
   try {
     const { id } = req.params;
     const city = await City.findById(id);
@@ -66,7 +66,7 @@ exports.getCityById = async (req, res) => {
 };
 
 // Update a city by ID
-exports.updateCity = async (req, res) => {
+export const updateCity = async (req, res) => {
   try {
     const { id } = req.params;
     const { name } = req.body;
@@ -94,7 +94,7 @@ exports.updateCity = async (req, res) => {
 };
 
 // Delete a city by ID
-exports.deleteCity = async (req, res) => {
+export const deleteCity = async (req, res) => {
   try {
     const { id } = req.params;
     const deletedCity = await City.findByIdAndDelete(id);

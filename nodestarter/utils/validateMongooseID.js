@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const isValidObjectId = async (id) => {
   try {
@@ -8,4 +8,4 @@ const isValidObjectId = async (id) => {
   }
 };
 
-module.exports = isValidObjectId;
+export default isValidObjectId;

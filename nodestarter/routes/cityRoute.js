@@ -1,15 +1,16 @@
-const router = require("express").Router();
-const {
+import express from "express";
+const router = express.Router();
+import {
   createCity,
   getAllCities,
   getCityById,
   updateCity,
   deleteCity,
-} = require("../controllers/cityCtrl");
-const {
+} from "../controllers/cityCtrl.js";
+import {
   authenticateUserLogin,
   checkAuthorization,
-} = require("../middlewares/authenticate");
+} from "../middlewares/authenticate.js";
 
 // Routes for CRUD operations on cities
 router
@@ -18,4 +19,4 @@ router
   .get(getAllCities);
 router.route("/:id").get(getCityById).put(updateCity).delete(deleteCity);
 
-module.exports = router;
+export default router;

@@ -13,7 +13,7 @@ import "./carservice.css";
 import CustomSelectField from "./_components/CustomSelectWithLabel";
 import MultipleImageUpload from "./_components/MultipleImageUpload ";
 import CarProducts from "./CarProducts";
-import {currentUserDataHelper} from "@/utils/currentUserDataHelper";
+import { currentUserDataHelper } from "@/utils/currentUserDataHelper";
 import LoadingSkeletalParent from "@/components/LoadingSkeletalParent";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -81,15 +81,33 @@ const Cars = () => {
       setFormImagesErrors(null);
 
       // Send form data to the server
-      console.log(formImages);
       if (formImages.length == 0) {
         alert("Police Wala");
         return setFormImagesErrors("Please attach at least one image");
       }
 
-      const dataSendingToApi = { ...data, images_array: [...formImages] };
+      const { car_model, price, phone, city, no_of_copies } = data;
 
+      const dataSendingToApi = new FormData();
+      dataSendingToApi.append("car_model", car_model);
+      dataSendingToApi.append("price", price);
+      dataSendingToApi.append("phone", phone);
+      dataSendingToApi.append("city", city);
+      dataSendingToApi.append("no_of_copies", no_of_copies);
+      formImages.forEach((file, index) => {
+        dataSendingToApi.append(`image${index}`, file);
+      });
+
+      console.log(dataSendingToApi, "DATA Sending");
+      const dataSendingToApi1 = { ...data, images_array: [...formImages] };
       // Api Sending For Creating New Car
+      const token = getCookie("access_token");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+
+      const res = await api.post(`/car/`, dataSendingToApi, { headers });
+      console.log(res.data);
     } catch (error) {
       console.error("Error submitting form:", error);
     }
@@ -111,7 +129,7 @@ const Cars = () => {
             Create a New Car
           </h2>
 
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
             <CustomFlexInput
               label="Car Model"
               errors={errors.car_model && errors.car_model.message}

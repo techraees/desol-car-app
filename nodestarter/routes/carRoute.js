@@ -1,10 +1,11 @@
-const router = require("express").Router();
-const {
+import express from "express";
+const router = express.Router();
+import {
   createCarModel,
   getAllCarModels,
   deleteCarModel,
-} = require("../controllers/carCtrl");
-const { authenticateUserLogin } = require("../middlewares/authenticate");
+} from "../controllers/carCtrl.js";
+import { authenticateUserLogin } from "../middlewares/authenticate.js";
 
 // Routes for CRUD operations on car models
 router
@@ -13,4 +14,4 @@ router
   .get(getAllCarModels);
 router.route("/:id").delete(deleteCarModel);
 
-module.exports = router;
+export default router;

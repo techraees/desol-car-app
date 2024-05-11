@@ -1,5 +1,5 @@
-const jwt = require("jsonwebtoken");
-const UserModel = require("../models/userModel");
+import jwt from "jsonwebtoken";
+import UserModel from "../models/userModel.js";
 
 const authenticateUserLogin = async (req, res, next) => {
   const authHeader = req.headers["authorization"];
@@ -57,4 +57,4 @@ function checkAuthorization(req, res, next) {
   }
 }
 
-module.exports = { authenticateUserLogin, checkAuthorization };
+export { authenticateUserLogin, checkAuthorization };

@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 // Replace 'YOUR_MONGODB_URI' with your actual MongoDB connection URI
 const mongodbURI =
@@ -15,4 +15,4 @@ const connectDB = async () => {
   }
 };
 
-module.exports = connectDB;
+export default connectDB;

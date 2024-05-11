@@ -1,20 +1,20 @@
 // Import required modules
-const express = require("express");
-const fileUpload = require("express-fileupload");
-const cors = require("cors");
-require("dotenv").config();
-const path = require("path");
-const DB = require("./utils/db");
-
+import express from "express";
+import fileUpload from "express-fileupload";
+import cors from "cors";
+import dotenv from "dotenv";
+dotenv.config();
+import path from "path";
+import DB from "./utils/db.js";
 
 // Create an Express application
 const app = express();
 
 // Middleware for parsing request bodies (optional)
-app.use(express.static("public"));
 app.use(fileUpload());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static("./public"));
 
 // Connected to Database
 DB();
@@ -27,13 +27,11 @@ app.use(
   })
 );
 
-// Static assets
-app.use(express.static(path.join(__dirname, "public")));
 
 // Routes
-const authRoute = require("./routes/authRoute");
-const cityRoute = require("./routes/cityRoute");
-const carRoute = require("./routes/carRoute");
+import authRoute from "./routes/authRoute.js"
+import cityRoute from "./routes/cityRoute.js"
+import carRoute from "./routes/carRoute.js"
 
 app.use("/api/auth", authRoute);
 app.use("/api/city", cityRoute);

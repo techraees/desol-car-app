@@ -1,5 +1,5 @@
-const multer = require("multer");
-const path = require("path");
+import multer from "multer";
+import path from "path";
 
 // Define the destination folder within the server directory
 const destinationFolder = "uploads"; // Folder name where images will be stored

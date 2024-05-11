@@ -1,7 +1,7 @@
-const isValidObjectId = require("../utils/validateMongooseID");
-const UserModal = require("../models/userModel"); // Import the User model
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+import isValidObjectId from "../utils/validateMongooseID.js";
+import UserModal from "../models/userModel.js";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 // Login User By Token
 const loginUser = async (req, res) => {
@@ -36,12 +36,10 @@ const loginUser = async (req, res) => {
       .status(200)
       .json({ status: "success", payload: { access_token: token } });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        status: "fail",
-        payload: { error_code: 500, error_message: "Internal Server Error" },
-      });
+    res.status(500).json({
+      status: "fail",
+      payload: { error_code: 500, error_message: "Internal Server Error" },
+    });
   }
 };
 // Verify User By Token
@@ -62,12 +60,10 @@ const verifyUserLogin = async (req, res) => {
 
     return res.status(200).json({ status: "success", payload: { user } });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        status: "fail",
-        payload: { error_code: 500, error_message: "Internal Server Error" },
-      });
+    return res.status(500).json({
+      status: "fail",
+      payload: { error_code: 500, error_message: "Internal Server Error" },
+    });
   }
 };
 
@@ -90,17 +86,11 @@ const createrNewUser = async (req, res) => {
     return res.status(200).json({ status: "success", payload: { user: user } });
   } catch (error) {
     console.log(error);
-    res
-      .status(500)
-      .json({
-        status: "fail",
-        payload: { error_code: 500, error_message: "Internal Server Error" },
-      });
+    res.status(500).json({
+      status: "fail",
+      payload: { error_code: 500, error_message: "Internal Server Error" },
+    });
   }
 };
 
-module.exports = {
-  verifyUserLogin,
-  loginUser,
-  createrNewUser,
-};
+export { verifyUserLogin, loginUser, createrNewUser };

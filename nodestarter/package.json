@@ -8,6 +8,7 @@
     "dev": "nodemon index.js",
     "start": "node index.js"
   },
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/techraees/nodetemplate-tailwindready.git"
