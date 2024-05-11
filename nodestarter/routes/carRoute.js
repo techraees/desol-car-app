@@ -4,14 +4,15 @@ import {
   createCarModel,
   getAllCarModels,
   deleteCarModel,
+  getCarById,
 } from "../controllers/carCtrl.js";
-import { authenticateUserLogin } from "../middlewares/authenticate.js";
+import { authenticateUserLogin, checkAuthorization } from "../middlewares/authenticate.js";
 
 // Routes for CRUD operations on car models
 router
   .route("/")
-  .post(authenticateUserLogin, createCarModel)
+  .post(authenticateUserLogin, checkAuthorization, createCarModel)
   .get(getAllCarModels);
-router.route("/:id").delete(deleteCarModel);
+router.route("/:id").delete(deleteCarModel).get(getCarById);
 
 export default router;

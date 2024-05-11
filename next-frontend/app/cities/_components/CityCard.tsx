@@ -4,7 +4,7 @@ import { Card, CardHeader, CardBody, CardFooter, Text } from "@chakra-ui/react";
 
 import React from "react";
 
-const page = ({ city }: { city: any }) => {
+const CityCard = ({ city }: { city: any }) => {
   return (
       <Card className="my-4">
         <CardBody>
@@ -14,4 +14,4 @@ const page = ({ city }: { city: any }) => {
   );
 };
 
-export default page;
+export default CityCard;

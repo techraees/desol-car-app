@@ -6,9 +6,7 @@ import createSlug from "../helper/CreateSlug.js";
 
 export const createCarModel = async (req, res) => {
   try {
-    console.log("start");
     const { car_model, price, phone, city, no_of_copies } = req.body;
-    const userEmail = req.body.email; // Assuming the email is in req.body.email
     const images = req.files;
     const { email } = req.user;
 
@@ -24,34 +22,23 @@ export const createCarModel = async (req, res) => {
     }
 
     // Create a folder with the user's email address if it doesn't exist
-    console.log("second", email);
 
     const __filename = fileURLToPath(import.meta.url);
-    console.log("third", __filename);
 
     const __dirname = path.dirname(__filename);
-    console.log("fourth", __dirname);
 
     // const userFolder = path.join(__dirname, "../public/uploads-car-image", email);
     const slugname = createSlug(car_model);
-    console.log(
-      slugname,
-      "ffffffffffffffffffffiiiiiiiiiffffffffffttttttttttthhhhhhhh"
-    );
+
     const userFolder = path.join(
       __dirname,
       "../public/uploads-car-images",
 
       `${slugname}-${email}`
     );
-    console.log("fifth", __filename, __dirname, userFolder);
     if (!fs.existsSync(userFolder)) {
-      console.log("sixth");
-
       fs.mkdirSync(userFolder);
-      console.log("seven");
     }
-    console.log("eight");
 
     // Save images to the user's folder and collect their URLs
     const imageUrls = await saveImages(
@@ -59,12 +46,14 @@ export const createCarModel = async (req, res) => {
       userFolder,
       `${slugname}-${email}`
     );
+    console.log(imageUrls);
     // Create a new car model with image URLs
     const newCarModel = await CarModel.create({
       car_model,
       price,
       phone,
       city,
+      userId: req.user._id,
       no_of_copies,
       images_array: imageUrls,
     });
@@ -93,7 +82,6 @@ const saveImages = async (imagesObj, userFolder, folderName) => {
 
     // Generate a unique name for the image
     const imageName = `image_${Date.now()}_${key}${path.extname(image.name)}`;
-
     // Construct the image path
     const imagePath = path.join(userFolder, imageName);
 
@@ -114,7 +102,7 @@ const saveImages = async (imagesObj, userFolder, folderName) => {
 // Get all car models
 export const getAllCarModels = async (req, res) => {
   try {
-    const carModels = await CarModel.find().populate('city');
+    const carModels = await CarModel.find().populate("city");
     res.json({ status: "success", payload: { carModels } });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -132,5 +120,28 @@ export const deleteCarModel = async (req, res) => {
     res.json({ message: "Car model deleted successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+};
+
+// Get a Car by ID
+export const getCarById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const car = await CarModel.findById(id);
+    if (!car) {
+      return res.status(404).json({
+        status: "fail",
+        payload: { error_message: "Car not found", error_code: "NOT_FOUND" },
+      });
+    }
+    res.json({ status: "success", payload: { car } });
+  } catch (err) {
+    res.status(500).json({
+      status: "fail",
+      payload: {
+        error_message: err.message,
+        error_code: "INTERNAL_SERVER_ERROR",
+      },
+    });
   }
 };

@@ -24,7 +24,7 @@ app.use(express.static("public"));
 // Apply cors
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "https://desol-car-app-chi.vercel.app",
     methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
   })
 );

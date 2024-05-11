@@ -1,4 +1,5 @@
 "use client";
+
 import { z } from "zod";
 
 import React, { useState } from "react";
@@ -23,7 +24,7 @@ interface CityFormDataPayload {
   name: string;
 }
 
-const page = () => {
+const Cities = () => {
   const {
     register,
     handleSubmit,
@@ -92,4 +93,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Cities;

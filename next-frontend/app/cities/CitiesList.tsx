@@ -5,11 +5,11 @@ import React, { useEffect, useState } from "react";
 import CityCard from "./_components/CityCard";
 import { ClipLoader } from "react-spinners";
 
-const CitiesList = ({
-  gettingNewDataLoading,
-}: {
+interface CitiesListProps {
   gettingNewDataLoading: any;
-}) => {
+}
+
+const CitiesList: React.FC<CitiesListProps> = ({ gettingNewDataLoading }) => {
   const [citiesData, setCitiesData] = useState<any | null>(null);
   const [errorFetchingData, setErrorFetchingData] = useState<any | null>(null);
   const [cityProductsLoading, setCityProductsLoading] =
@@ -21,13 +21,14 @@ const CitiesList = ({
       setErrorFetchingData(null);
       setCityProductsLoading(true);
       const { data } = await api.get("/city/");
-      if (data.status == "success") setCitiesData(data.payload.cities);
+      if (data.status === "success") setCitiesData(data.payload.cities);
       setCityProductsLoading(false);
     } catch (error) {
       setErrorFetchingData("Server Error While Fetching Products");
       setCityProductsLoading(false);
     }
   };
+
   useEffect(() => {
     handleGettingCarData();
   }, [gettingNewDataLoading]);

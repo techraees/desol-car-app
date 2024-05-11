@@ -10,7 +10,7 @@ export const setCookie = (key: string, value: string, options?: any) => {
   expirationDate.setDate(expirationDate.getDate() + 20);
 
   // Set the cookie with maxAge option
-  cookies.set(key, value, { ...options, expires: expirationDate });
+  cookies.set(key, value, { ...options, expires: expirationDate, path: "/" });
 };
 
 export const getCookie = (key: string) => {
