@@ -6,7 +6,6 @@ import dotenv from "dotenv";
 dotenv.config();
 import DB from "./utils/db.js";
 
-
 // Create an Express application
 const app = express();
 
@@ -15,7 +14,7 @@ app.use(express.static("./public"));
 // Apply cors
 app.use(
   cors({
-    origin: "https://desol-car-app-chi.vercel.app",
+    origin: process.env.FRONTEND_URL,
     methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
   })
 );
@@ -29,14 +28,10 @@ app.use(fileUpload());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-
-
-
 // Routes
-import authRoute from "./routes/authRoute.js"
-import cityRoute from "./routes/cityRoute.js"
-import carRoute from "./routes/carRoute.js"
-
+import authRoute from "./routes/authRoute.js";
+import cityRoute from "./routes/cityRoute.js";
+import carRoute from "./routes/carRoute.js";
 
 app.use("/api/auth", authRoute);
 app.use("/api/city", cityRoute);
