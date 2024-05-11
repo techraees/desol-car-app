@@ -38,7 +38,10 @@ const loginUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       status: "fail",
-      payload: { error_code: 500, error_message: "Internal Server Error" },
+      payload: {
+        error_code: error.message,
+        error_message: "Internal Server Error",
+      },
     });
   }
 };
@@ -62,7 +65,10 @@ const verifyUserLogin = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       status: "fail",
-      payload: { error_code: 500, error_message: "Internal Server Error" },
+      payload: {
+        error_code: error.message,
+        error_message: "Internal Server Error",
+      },
     });
   }
 };
@@ -88,7 +94,10 @@ const createrNewUser = async (req, res) => {
     console.log(error);
     res.status(500).json({
       status: "fail",
-      payload: { error_code: 500, error_message: "Internal Server Error" },
+      payload: {
+        error_code: error.message,
+        error_message: "Internal Server Error",
+      },
     });
   }
 };
