@@ -7,17 +7,19 @@ dotenv.config();
 import path from "path";
 import DB from "./utils/db.js";
 
+
 // Create an Express application
 const app = express();
+
+// Connected to Database
+DB();
 
 // Middleware for parsing request bodies (optional)
 app.use(fileUpload());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static("./public"));
+app.use(express.static("public"));
 
-// Connected to Database
-DB();
 
 // Apply cors
 app.use(

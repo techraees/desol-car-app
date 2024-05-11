@@ -14,13 +14,20 @@ import {
 // Import custom arrow icons
 import { PrevArrow, NextArrow } from "@/utils/ArrowsIcon";
 
+interface City {
+  name: string;
+  _id: string;
+  __v: any;
+}
+
 interface Car {
-  id: number;
-  title: string;
-  images: string[];
+  _id: string;
+  car_model: string;
+  images_array: string[];
   price: number;
-  city: string;
-  copies: number;
+  city: City;
+  no_of_copies: number;
+  __v: any;
 }
 
 interface CarCardProps {
@@ -47,17 +54,25 @@ const CarCard: React.FC<CarCardProps> = ({ car }) => {
       className="shadow-2xl"
       m="2"
     >
-      <Slider {...settings}>
-        {car.images.map((image: string, index: number) => (
+      <Slider {...settings} className="h-[120px] overflow-hidden">
+        {car.images_array.map((image: string, index: number) => (
           <div key={index}>
-            <Image src={image} alt={car.title} maxW="100%" maxH="30%" className="w-[100%]" />
+            <Image
+              src={`${process.env.NEXT_PUBLIC_API_URL}${image}`}
+              alt={"car.title"}
+              maxW="100%"
+              maxH="30%"
+              className="w-[100%]"
+            />
           </div>
         ))}
       </Slider>
 
       <CardHeader style={{ padding: "10px 15px" }}>
         <Flex justify="space-between" align="center">
-          <Text fontSize="sm">{car.title}</Text>
+          <Text fontSize="sm" className="truncate ">
+            {car.car_model}
+          </Text>
           <Text fontSize="xs" fontWeight="bold" color="green.500">
             ${car.price}
           </Text>
@@ -66,12 +81,14 @@ const CarCard: React.FC<CarCardProps> = ({ car }) => {
 
       <CardBody style={{ padding: "10px 15px", paddingTop: "0px" }}>
         <Flex justify="space-between">
-          <Text fontSize="xs" color="gray.500">
-            City: {car.city}
+          <Text fontSize="xs" color="gray.500" className="flex justify-between truncate">
+
+            <span> City:</span> <span>{car.city.name}</span>
           </Text>
         </Flex>
         <Text mt="0" color="gray.400" className="text-[8px]">
-          Number of Copies: <span className="text-[10px]">{car.copies}</span>
+          Number of Copies:{" "}
+          <span className="text-[10px]">{car.no_of_copies}</span>
         </Text>
       </CardBody>
     </Card>

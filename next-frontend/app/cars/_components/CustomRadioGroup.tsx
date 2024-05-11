@@ -37,9 +37,9 @@ const CustomRadioGroup = ({
             {options &&
               options.map((option) => (
                 <Radio
-                  key={option.name}
+                  key={option._id}
                   onChange={(e) => {}}
-                  value={option.name}
+                  value={option._id}
                   {...register(name)}
                   className="ml-10"
                 >

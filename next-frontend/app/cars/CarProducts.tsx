@@ -1,46 +1,73 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Flex } from "@chakra-ui/react";
 import CarCard from "./_components/CarCard"; // Assuming CarCard is the name of your card component
+import api from "@/utils/api";
+import { ClipLoader } from "react-spinners";
 
-const CarProducts = () => {
-  // Assuming carProductsData is defined here or imported from somewhere
-  const carProductsData = [
-    {
-      id: 1,
-      title: "Car 1",
-      images: [
-        "https://picsum.photos/150/150",
-        "https://picsum.photos/150",
-        "https://picsum.photos/150/150",
-      ],
-      price: 10000,
-      city: "New York",
-      copies: 5,
-    },
-    {
-      id: 2,
-      title: "Car 2",
-      images: [
-        "https://picsum.photos/150",
-        "https://picsum.photos/150/150",
-        "https://picsum.photos/150",
-        "https://picsum.photos/150/150",
-        "https://picsum.photos/150",
-        "https://picsum.photos/150/150",
-      ],
-      price: 15000,
-      city: "Los Angeles",
-      copies: 3,
-    },
-    // Add more car products here if needed
-  ];
+interface City {
+  name: string;
+  _id: string;
+  __v: any;
+}
 
+interface Car {
+  _id: string;
+  car_model: string;
+  images_array: string[];
+  price: number;
+  city: City;
+  no_of_copies: number;
+  __v: any;
+}
+
+const CarProducts = ({
+  gettingNewDataLoading,
+}: {
+  gettingNewDataLoading: any;
+}) => {
+  const [carProductsData, setCarPorductsData] = useState<any | null>(null);
+  const [errorFetchingData, setErrorFetchingData] = useState<any | null>(null);
+  const [carProductsLoading, setCarProductsLoading] = useState<boolean>(false);
+
+  // Getting the Cars Data
+  const handleGettingCarData = async () => {
+    try {
+      setErrorFetchingData(null);
+      setCarProductsLoading(true);
+      const { data } = await api.get("/car/");
+      if (data.status == "success") setCarPorductsData(data.payload.carModels);
+      setCarProductsLoading(false);
+    } catch (error) {
+      setErrorFetchingData("Server Error While Fetching Products");
+      setCarProductsLoading(false);
+    }
+  };
+  useEffect(() => {
+    handleGettingCarData();
+  }, [gettingNewDataLoading]);
+
+  console.log(carProductsData);
   return (
-    <Flex justify="center" align="center" wrap="wrap">
-      {carProductsData.map((car) => (
-        <CarCard key={car.id} car={car} />
-      ))}
-    </Flex>
+    <>
+      {carProductsLoading ? (
+        <div className="w-[500px] h-[500px] flex justify-center items-center m-auto">
+          <ClipLoader />
+        </div>
+      ) : (
+        <>
+          <h2 className="text-center my-3 text-[#c5c3c3] font-[600] text-lg">
+            Latest Cars With Modals
+          </h2>
+          <Flex justify="center" align="center" wrap="wrap">
+            {carProductsData
+              ? carProductsData.map((car: Car) => (
+                  <CarCard key={car._id} car={car} />
+                ))
+              : errorFetchingData && <div>{errorFetchingData}</div>}
+          </Flex>
+        </>
+      )}
+    </>
   );
 };
 

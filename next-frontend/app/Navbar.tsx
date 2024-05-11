@@ -43,12 +43,13 @@ export default function WithSubnavigation() {
   const handleCurrentUserData = async () => {
     const access_token: string = getCookie("access_token");
 
-    const data = await currentUserData(access_token);
-    if (data) {
-      setCurrentLoginUserData(data);
+    if (access_token) {
+      const data = await currentUserData(access_token);
+      if (data) {
+        setCurrentLoginUserData(data);
+      } else {
+      }
     } else {
-      
-      router.push("/");
     }
   };
   useEffect(() => {
@@ -332,5 +333,9 @@ const NAV_ITEMS: Array<NavItem> = [
   {
     label: "Add a New Car",
     href: "/cars",
+  },
+  {
+    label: "New City",
+    href: "/cities",
   },
 ];

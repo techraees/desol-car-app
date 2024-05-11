@@ -13,10 +13,7 @@ import {
 } from "../middlewares/authenticate.js";
 
 // Routes for CRUD operations on cities
-router
-  .route("/")
-  .post(authenticateUserLogin, checkAuthorization, createCity)
-  .get(getAllCities);
+router.route("/").post(createCity).get(getAllCities);
 router.route("/:id").get(getCityById).put(updateCity).delete(deleteCity);
 
 export default router;

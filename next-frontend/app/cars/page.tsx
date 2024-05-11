@@ -46,12 +46,15 @@ const Cars = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<CarFormData>({
     resolver: zodResolver(carSchema),
   });
   const router = useRouter();
   const [cities, setCities] = useState<any | null>(null);
   const [carsPageLoading, setCarsPageLoading] = useState<boolean>(false);
+  const [createNewCarLoading, setCreateNewCarLoading] =
+    useState<boolean>(false);
   const [formImages, setFormImages] = useState<File[]>([]); // State to store image files
   const [formImagesErrors, setFormImagesErrors] = useState<string | null>(null); // State to store image files
 
@@ -62,7 +65,7 @@ const Cars = () => {
       currentUserDataHelper(access_token, router);
       setCarsPageLoading(false);
     } else {
-      router.push("/auth/login");
+      // router.push("/auth/login");
     }
   }, []);
 
@@ -79,10 +82,9 @@ const Cars = () => {
   const onSubmit = async (data: CarFormData) => {
     try {
       setFormImagesErrors(null);
-
+      setCreateNewCarLoading(true);
       // Send form data to the server
       if (formImages.length == 0) {
-        alert("Police Wala");
         return setFormImagesErrors("Please attach at least one image");
       }
 
@@ -98,8 +100,6 @@ const Cars = () => {
         dataSendingToApi.append(`image${index}`, file);
       });
 
-      console.log(dataSendingToApi, "DATA Sending");
-      const dataSendingToApi1 = { ...data, images_array: [...formImages] };
       // Api Sending For Creating New Car
       const token = getCookie("access_token");
       const headers = {
@@ -107,8 +107,12 @@ const Cars = () => {
       };
 
       const res = await api.post(`/car/`, dataSendingToApi, { headers });
-      console.log(res.data);
+      setCreateNewCarLoading(false);
+      reset();
+      setFormImages([]);
     } catch (error) {
+      setCreateNewCarLoading(false);
+
       console.error("Error submitting form:", error);
     }
   };
@@ -117,8 +121,6 @@ const Cars = () => {
   const hasErrors = (errorsObj: any) => {
     return Object.keys(errorsObj).length > 0;
   };
-  console.log(formImagesErrors);
-  console.log(errors);
   return (
     <>
       {carsPageLoading ? (
@@ -165,7 +167,9 @@ const Cars = () => {
               errors={errors.no_of_copies && errors.no_of_copies.message}
             />
             <MultipleImageUpload
+              images={formImages}
               onImageChange={setFormImages}
+              setImages={setFormImages}
               errors={formImagesErrors}
               setClearImageError={setFormImagesErrors}
             />
@@ -180,9 +184,13 @@ const Cars = () => {
               }}
               className={`w-[100%] py-1.5 rounded-md text-white my-4`}
               colorScheme="blackAlpha"
-              isDisabled={formImagesErrors || hasErrors(errors) ? true : false}
+              isDisabled={
+                formImagesErrors || hasErrors(errors) || createNewCarLoading
+                  ? true
+                  : false
+              }
             >
-              {false ? (
+              {createNewCarLoading ? (
                 <div className="h-[100%] flex items-center justify-center">
                   <ClipLoader size={20} color="#f00e0e0e0" />
                 </div>
@@ -192,7 +200,7 @@ const Cars = () => {
             </Button>
           </form>
 
-          <CarProducts />
+          <CarProducts gettingNewDataLoading={createNewCarLoading} />
         </div>
       )}
     </>

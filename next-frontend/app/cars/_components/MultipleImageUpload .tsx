@@ -1,3 +1,5 @@
+"use client";
+
 import { useRef, useState } from "react";
 import { Flex, Box, Input, IconButton } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
@@ -7,13 +9,16 @@ const ImageUpload = ({
   onImageChange,
   errors,
   setClearImageError,
+  images,
+  setImages,
 }: {
   onImageChange: any;
   errors: string | null;
   setClearImageError: any;
+  images: File[];
+  setImages: any;
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [images, setImages] = useState<File[]>([]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;

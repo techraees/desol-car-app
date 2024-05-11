@@ -1,4 +1,4 @@
-import City from "../models/cityModel.js"
+import City from "../models/cityModel.js";
 
 // Create a new city
 export const createCity = async (req, res) => {
@@ -29,7 +29,7 @@ export const createCity = async (req, res) => {
 // Get all cities
 export const getAllCities = async (req, res) => {
   try {
-    const cities = await City.find();
+    const cities = await City.find().sort({ createdAt: -1 });
     res.json({ status: "success", payload: { cities } });
   } catch (err) {
     res.status(500).json({

@@ -17,8 +17,8 @@ export const currentUserDataHelper = async (
       }
     }
   } catch (error) {
-    router.push("/auth/login");
     removeCookie("access_token");
+    router.push("/auth/login");
     return false;
   }
 };
