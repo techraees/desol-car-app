@@ -12,9 +12,11 @@ const app = express();
 app.use(express.static("./public"));
 
 // Apply cors
+let FRONTEND_URL = "http://localhost:3000";
+let FRONTEND_URL_PRODUCTION = "https://desol-car-app-chi.vercel.app";
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
+    origin: FRONTEND_URL,
     methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
   })
 );
